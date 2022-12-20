@@ -1,10 +1,11 @@
-#ifndef DESERIALIZER_TUPLE_HPP
-#define DESERIALIZER_TUPLE_HPP
+#ifndef DESERIALIZER_FLATTUPLE_HPP
+#define DESERIALIZER_FLATTUPLE_HPP
 
 #include <cstddef>
 #include <type_traits>
 #include <utility>
 
+namespace godbolt {
     template <std::size_t N>
     using integral = std::integral_constant<std::size_t, N>;
 
@@ -217,23 +218,28 @@
     forward_as_tuple(TT&&...tt) {
         return tuple { std::forward<TT>(tt)... };
     }
+}
 
 namespace std {
     template <typename...TT>
-    struct tuple_size<zen::tuple<TT...>>
+    struct tuple_size<godbolt::tuple<TT...>>
             : integral_constant<::size_t, sizeof...(TT)> {};
 
     template <::size_t N, typename...TT>
-    struct tuple_element<N, zen::tuple<TT...>> {
-        using type = typename decltype(declval<zen::tuple<TT...>>().type_at(zen::I<N>))::value;
+    struct tuple_element<N, godbolt::tuple<TT...>> {
+        using type = typename decltype(declval<godbolt::tuple<TT...>>().type_at(godbolt::I<N>))::value;
     };
 
-    template <::size_t N, typename...TT, typename Tup = zen::tuple<TT...>>
+    template <::size_t N, typename...TT, typename Tup = godbolt::tuple<TT...>>
     tuple_element_t<N, Tup>&
     get(Tup& tup) {
-        return tup[zen::I<N>];
+        return tup[godbolt::I<N>];
     }
 }
 
+using godbolt::I;
+using godbolt::T;
+using godbolt::pointer;
+using godbolt::tuple;
 
-#endif // DESERIALIZER_TUPLE_HPP
+#endif // DESERIALIZER_FLATTUPLE_HPP
