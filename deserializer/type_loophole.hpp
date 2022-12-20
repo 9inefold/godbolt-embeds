@@ -1,5 +1,5 @@
-#ifndef LUPLE_LOOPHOLE_H
-#define LUPLE_LOOPHOLE_H
+#ifndef LUPLE_TYPELOOPHOLE_HPP
+#define LUPLE_TYPELOOPHOLE_HPP
 
 /*
 luple: a Lightweight Tuple (C++14)
@@ -395,6 +395,11 @@ Author: Alexandr Poltavsky, http://alexpolt.github.io
 License: Public-domain software
 */
 
+#if !defined(__clang__) && defined(__GNUC__)
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wnon-template-friend"
+#endif
+
 namespace loophole_ns {
   
   template<typename T, int N>
@@ -443,4 +448,8 @@ namespace loophole_ns {
 
 }
 
-#endif // LUPLE_LOOPHOLE_H
+#if !defined(__clang__) && defined(__GNUC__)
+#  pragma GCC diagnostic pop
+#endif
+
+#endif // LUPLE_TYPELOOPHOLE_HPP
