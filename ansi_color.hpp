@@ -5,7 +5,7 @@
 #include <string>
 #include <string_view>
 
-namespace zen::ansi {
+namespace ansi {
     struct ansi_base {
         std::string_view color { "\u001b[0m" };
 
