@@ -122,13 +122,13 @@ namespace godbolt {
         };
 
         template <typename...TT>
-        tuple_elements(TT&&...tt) -> tuple_elements<seq<sizeof...(TT)>, TT...>;
+        tuple_elements(TT&&...tt) -> tuple_elements<seq_t<sizeof...(TT)>, TT...>;
     }
 
 
     template <typename...TT>
     struct tuple {
-        using self_type = detail::tuple_elements< seq<sizeof...(TT)>, TT... >;
+        using self_type = detail::tuple_elements< seq_t<sizeof...(TT)>, TT... >;
         self_type data;
 
         static constexpr std::size_t count = sizeof...(TT);
