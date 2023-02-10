@@ -7,16 +7,16 @@
 
 namespace godbolt {
     template <std::size_t N>
-    using integral = std::integral_constant<std::size_t, N>;
+    using index_constant = std::integral_constant<std::size_t, N>;
 
     template <std::size_t N>
-    using seq = decltype(std::make_index_sequence<N>());
+    using seq_t = decltype(std::make_index_sequence<N>());
 
     template <std::size_t N>
-    constexpr auto I = integral<N>{};
+    inline constexpr auto I = index_constant<N>{};
 
     template <typename T>
-    struct type {
+    struct type_constant {
         using value = T;
     };
 
@@ -24,7 +24,7 @@ namespace godbolt {
     struct types {};
 
     template <typename U>
-    constexpr auto T = type<U>{};
+    constexpr auto Tp = type_constant<U>{};
 
     template <typename> struct pointer;
 
@@ -58,24 +58,24 @@ namespace godbolt {
             T data;
 
             constexpr T&
-            get_self(const integral<N>&) {
+            get_self(const index_constant<N>&) {
                 return data;
             }
 
             constexpr const T&
-            get_self(const integral<N>&) const {
+            get_self(const index_constant<N>&) const {
                 return data;
             }
 
 
             constexpr std::size_t
-            self_index(const type<T>&) const {
+            self_index(const type_constant<T>&) const {
                 return N;
             }
 
 
-            constexpr type<T>
-            self_type(const integral<N>&) const {
+            constexpr type_constant<T>
+            self_type(const index_constant<N>&) const {
                 return {};
             }
         };
@@ -90,33 +90,33 @@ namespace godbolt {
 
             template <std::size_t N>
             constexpr decltype(auto)
-            get_member(const integral<N>& i) {
+            get_member(const index_constant<N>& i) {
                 return get_self(i);
             }
 
             template <std::size_t N>
             constexpr decltype(auto)
-            get_member(const integral<N>& i) const {
+            get_member(const index_constant<N>& i) const {
                 return get_self(i);
             }
 
 
             template <typename T>
             constexpr std::size_t
-            get_index(const type<T>& t) const {
+            get_index(const type_constant<T>& t) const {
                 return self_index(t);
             }
 
 
             template <std::size_t N>
             constexpr auto
-            get_type(const integral<N>& i) {
+            get_type(const index_constant<N>& i) {
                 return self_type(i);
             }
 
             template <std::size_t N>
             constexpr auto
-            get_type(const integral<N>& i) const {
+            get_type(const index_constant<N>& i) const {
                 return self_type(i);
             }
         };
@@ -135,14 +135,14 @@ namespace godbolt {
 
         template <std::size_t N>
         constexpr decltype(auto)
-        get(const integral<N> i) {
+        get(const index_constant<N> i) {
             static_assert(N < count, "Index out of range!");
             return data.get_member(i);
         }
 
         template <std::size_t N>
         constexpr decltype(auto)
-        get(const integral<N> i) const {
+        get(const index_constant<N> i) const {
             static_assert(N < count, "Index out of range!");
             return data.get_member(i);
         }
@@ -163,35 +163,35 @@ namespace godbolt {
 
         template <typename T>
         constexpr std::size_t
-        get(const type<T> t) const {
+        get(const type_constant<T> t) const {
             return data.get_index(t);
         }
 
 
         template <std::size_t N>
         constexpr decltype(auto)
-        operator[](const integral<N> i) {
+        operator[](const index_constant<N> i) {
             static_assert(N < count, "Index out of range!");
             return data.get_member(i);
         }
 
         template <std::size_t N>
         constexpr decltype(auto)
-        operator[](const integral<N> i) const {
+        operator[](const index_constant<N> i) const {
             static_assert(N < count, "Index out of range!");
             return data.get_member(i);
         }
 
         template <typename T>
         constexpr std::size_t
-        operator[](const type<T> t) const {
+        operator[](const type_constant<T> t) const {
             return data.get_index(t);
         }
 
 
         template <std::size_t N>
         constexpr auto
-        type_at(const integral<N> i) const {
+        type_at(const index_constant<N> i) const {
             return data.get_type(i);
         }
     };
@@ -238,7 +238,7 @@ namespace std {
 }
 
 using godbolt::I;
-using godbolt::T;
+using godbolt::Tp;
 using godbolt::pointer;
 using godbolt::tuple;
 
