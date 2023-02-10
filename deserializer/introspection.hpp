@@ -39,7 +39,7 @@ namespace introspect {
             template <
                 typename U, 
                 std::size_t = sizeof(fn_def<T, U, N, sizeof(ins<U, N>(0)) == sizeof(char)>)>
-            operator U();
+            operator U&();
         };
 
         template <typename T, std::size_t... NN>
