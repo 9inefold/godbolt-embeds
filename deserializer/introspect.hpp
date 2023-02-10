@@ -4,6 +4,10 @@
 #include <utility>
 #include <type_traits>
 
+#ifndef DESERIALIZER_FLATTUPLE_HPP
+#  error Must include multi_tuple.hpp before introspect!
+#endif
+
 #if !defined(__clang__) && defined(__GNUC__)
 #  pragma GCC diagnostic push
 #  pragma GCC diagnostic ignored "-Wnon-template-friend"
