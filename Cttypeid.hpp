@@ -23,7 +23,7 @@
 #ifndef EFL_CTTYPEID_HPP
 #define EFL_CTTYPEID_HPP
 
-#include "https://raw.githubusercontent.com/8ightfold/efl-config/main/ConfigSingle.hpp"
+#include "https://raw.githubusercontent.com/9inefold/efl-config/main/ConfigSingle.hpp"
 
 #include <array>
 #include <iostream>
